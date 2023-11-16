@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddUrlToFileUploads extends Migration
+class UploadedFiles extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,12 @@ class AddUrlToFileUploads extends Migration
      */
     public function up()
     {
-        Schema::table('file_uploads', function (Blueprint $table) {
-            $table->string('url')->nullable()->after('filename');
+        Schema::create('file_uploads', function (Blueprint $table) {
+            $table->id();
+            $table->string('filename');
+            $table->string('url')->nullable(); // Add the new column
+            // Add other columns as needed
+            $table->timestamps();
         });
     }
 
@@ -25,8 +29,7 @@ class AddUrlToFileUploads extends Migration
      */
     public function down()
     {
-        Schema::table('file_uploads', function (Blueprint $table) {
-            //
-        });
+        Schema::dropIfExists('file_uploads');
     }
+
 }
