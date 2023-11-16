@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\FileUpload;
 
+
 class FileController extends Controller
 {
     public function uploadFile(Request $request)
@@ -20,6 +21,16 @@ class FileController extends Controller
         } else {
             // Failed to upload file
             return response()->json(['message' => 'Failed to upload file'], 500);
+        }
+    }
+    public function delete($filename)
+    {
+        $result = FileUpload::deleteFromAzureBlobStorage($filename);
+
+        if ($result) {
+            return response()->json(['message' => 'File deleted successfully'], 200);
+        } else {
+            return response()->json(['message' => 'Failed to delete file'], 500);
         }
     }
 }
